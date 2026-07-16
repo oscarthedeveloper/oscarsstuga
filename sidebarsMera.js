@@ -3,6 +3,7 @@
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebarsMera = {
   meraSidebar: [
+    'data',
     {
       type: 'category',
       label: 'Projekt',

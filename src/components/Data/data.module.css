@@ -1,0 +1,41 @@
+.wrap {
+  max-width: 720px;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.wrap button, .wrap input, .wrap label { font-family: inherit; }
+
+.card {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-card-background-color);
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+.h { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.35rem; }
+.p { margin: 0 0 0.9rem; color: var(--ifm-color-emphasis-700); font-size: 0.92rem; line-height: 1.55; }
+
+.btn {
+  appearance: none; border: none; border-radius: 8px;
+  background: var(--ifm-color-primary); color: #fff;
+  padding: 0.55rem 1.1rem; font-size: 0.92rem; font-weight: 600; cursor: pointer;
+}
+.btn:hover { background: var(--ifm-color-primary-dark); }
+.btn:disabled { opacity: 0.6; cursor: default; }
+
+.btnGhost {
+  display: inline-block;
+  border: 1px solid var(--ifm-color-emphasis-300); border-radius: 8px;
+  background: none; color: var(--ifm-color-emphasis-800);
+  padding: 0.55rem 1.1rem; font-size: 0.92rem; font-weight: 600; cursor: pointer;
+}
+.btnGhost:hover { background: var(--ifm-color-emphasis-100); color: var(--ifm-font-color-base); }
+.disabled { opacity: 0.6; pointer-events: none; }
+
+.status {
+  margin-top: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  background: var(--ifm-color-emphasis-100);
+  font-size: 0.9rem;
+  color: var(--ifm-font-color-base);
+}

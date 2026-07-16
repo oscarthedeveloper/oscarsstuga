@@ -27,6 +27,9 @@ const config = {
 
   onBrokenLinks: 'throw',
 
+  // Kör på klienten: sätter viewport-fit=cover för iOS safe-area.
+  clientModules: [require.resolve('./src/clientModules/viewport.js')],
+
   i18n: {
     defaultLocale: 'sv',
     locales: ['sv'],
@@ -77,6 +80,25 @@ const config = {
         path: 'mera',
         routeBasePath: 'mera',
         sidebarPath: require.resolve('./sidebarsMera.js'),
+      },
+    ],
+    // Offline-stöd: service worker som förhandscachar sidan (fungerar som app
+    // utan uppkoppling). Manifest/apple-taggar sätts via pwaHead nedan.
+    [
+      '@docusaurus/plugin-pwa',
+      {
+        debug: false,
+        offlineModeActivationStrategies: ['appInstalled', 'standalone', 'queryString'],
+        pwaHead: [
+          { tagName: 'link', rel: 'manifest', href: '/manifest.json' },
+          { tagName: 'link', rel: 'icon', href: '/img/icon-192.png' },
+          { tagName: 'link', rel: 'apple-touch-icon', href: '/img/apple-touch-icon.png' },
+          { tagName: 'meta', name: 'theme-color', content: '#f0ede7' },
+          { tagName: 'meta', name: 'apple-mobile-web-app-capable', content: 'yes' },
+          { tagName: 'meta', name: 'mobile-web-app-capable', content: 'yes' },
+          { tagName: 'meta', name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+          { tagName: 'meta', name: 'apple-mobile-web-app-title', content: 'Oscars Stuga' },
+        ],
       },
     ],
   ],

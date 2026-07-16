@@ -52,7 +52,7 @@ export default function Glosor() {
         <form className={styles.form} onSubmit={addCard}>
           <div className={styles.formRow}>
             <input className={styles.control} placeholder="Rubrik, t.ex. Hemmet" value={title} onChange={(e) => setTitle(e.target.value)} autoFocus />
-            <input className={styles.control} type="date" value={date} onChange={(e) => setDate(e.target.value)} style={{ flex: '0 0 auto' }} />
+            <input className={`${styles.control} ${styles.dateControl}`} type="date" value={date} onChange={(e) => setDate(e.target.value)} />
           </div>
           <div className={styles.formActions}>
             <button type="submit" className={styles.btn}>Skapa</button>

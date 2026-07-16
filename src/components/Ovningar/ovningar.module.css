@@ -200,3 +200,11 @@
   margin-left: 0.4rem;
   vertical-align: middle;
 }
+
+/* Mobil: kompaktare övningar, mjuk horisontell scroll för breda tabeller */
+.gridWrap { -webkit-overflow-scrolling: touch; }
+@media (max-width: 600px) {
+  .drill { padding: 1rem; }
+  .headMain { font-size: 1.35rem; }
+  .head { padding: 0.75rem 0.85rem; }
+}

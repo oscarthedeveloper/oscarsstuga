@@ -158,7 +158,16 @@ const sidebarsSprak = {
       type: 'category',
       label: 'Spanska',
       collapsed: true,
-      items: ['spanska/intro', 'spanska/anteckningar'],
+      items: [
+    'spanska/intro',
+    'spanska/anteckningar',
+    {
+      type: 'category',
+      label: 'Övningar',
+      collapsed: true,
+      items: ['spanska/ovningar/verbovning'],
+    },
+      ],
     },
     {
       type: 'category',

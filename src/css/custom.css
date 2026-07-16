@@ -199,3 +199,33 @@ h2 {
   width: 34px;
   height: 34px;
 }
+
+/* ═══════════════════════════════════════════════════
+   MOBIL-OPTIMERINGAR
+   ═══════════════════════════════════════════════════ */
+
+/* Förhindra iOS Safari från att zooma in vid fokus i fält.
+   Kräver att formkontroller är minst 16px på små skärmar. */
+@media (max-width: 600px) {
+  input:not([type='checkbox']):not([type='radio']),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Safe-area för iPhone (notch/hemindikator) i standalone-läget. */
+@supports (padding: max(0px)) {
+  .navbar {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+  .footer {
+    padding-bottom: max(1.2rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Mjukare tryck-scroll på mobil */
+@media (max-width: 768px) {
+  html { -webkit-text-size-adjust: 100%; }
+}

@@ -345,6 +345,7 @@
   border-radius: 10px;
   background: #ffffff;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 [data-theme='dark'] .tableWrap {
   background: #252320;

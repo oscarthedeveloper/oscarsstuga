@@ -229,3 +229,15 @@ h2 {
 @media (max-width: 768px) {
   html { -webkit-text-size-adjust: 100%; }
 }
+
+/* Säkerställ att mobilmenyns hamburgare alltid visas och att desktop-länkarna
+   döljs på mobil (redundant med Infima, men skyddar mot cache-/override-strul). */
+@media (max-width: 996px) {
+  .navbar__toggle {
+    display: inline-flex !important;
+    align-items: center;
+  }
+  .navbar__inner .navbar__item {
+    display: none;
+  }
+}

@@ -174,8 +174,8 @@
 /* Utloggningsknapp */
 .logout {
   position: fixed;
-  right: calc(0.9rem + env(safe-area-inset-right));
-  bottom: calc(0.9rem + env(safe-area-inset-bottom));
+  right: calc(1.15rem + env(safe-area-inset-right));
+  bottom: calc(1.15rem + env(safe-area-inset-bottom));
   z-index: 1000;
   font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
   font-size: 0.78rem;
@@ -199,5 +199,8 @@
 }
 
 @media (max-width: 560px) {
-  .logout { right: 0.6rem; bottom: 0.6rem; }
+  .logout {
+    right: calc(1rem + env(safe-area-inset-right));
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
 }

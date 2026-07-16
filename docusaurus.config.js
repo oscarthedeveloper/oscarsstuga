@@ -30,6 +30,19 @@ const config = {
   // Kör på klienten: sätter viewport-fit=cover för iOS safe-area.
   clientModules: [require.resolve('./src/clientModules/viewport.js')],
 
+  // Viewport injiceras i den statiska <head> så att den finns även på
+  // inloggningsskärmen (som kringgår Docusaurus vanliga Layout/head-defaults).
+  // Utan detta renderas låset i desktop-bredd och blir utzoomat på mobil.
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1, viewport-fit=cover',
+      },
+    },
+  ],
+
   i18n: {
     defaultLocale: 'sv',
     locales: ['sv'],

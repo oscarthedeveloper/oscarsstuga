@@ -34,7 +34,8 @@ export default function NotesGrid({ langId, basePath = 'sprak' }) {
     update((prev) => prev.filter((n) => n.id !== id));
   }
 
-  const sorted = [...notes].sort((a, b) => ((a.updatedAt || a.createdAt) < (b.updatedAt || b.createdAt) ? 1 : -1));
+  const list = (Array.isArray(notes) ? notes : []).filter((n) => n && n.id);
+  const sorted = [...list].sort((a, b) => ((a.updatedAt || a.createdAt || '') < (b.updatedAt || b.createdAt || '') ? 1 : -1));
 
   return (
     <div className={styles.wrap}>

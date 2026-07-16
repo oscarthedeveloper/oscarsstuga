@@ -33,7 +33,8 @@ export default function Ordabok() {
     update((prev) => prev.filter((c) => c.id !== id));
   }
 
-  const sorted = [...cards].sort((a, b) => (a.date < b.date ? 1 : -1));
+  const list = (Array.isArray(cards) ? cards : []).filter((c) => c && c.id);
+  const sorted = [...list].sort((a, b) => ((a.date || '') < (b.date || '') ? 1 : -1));
 
   return (
     <div className={styles.wrap}>

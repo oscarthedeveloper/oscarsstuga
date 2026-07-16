@@ -132,42 +132,37 @@ h2 {
 }
 
 /* ═══════════════════════════════════════════════════
-   FLYTANDE NAVBAR — rundad, transparent, glasig
+   NAVBAR — diskret, redaktionell rad med hårfin linje
    ═══════════════════════════════════════════════════ */
 
 .navbar {
   position: sticky;
-  top: 0.7rem;
-  margin: 0.7rem 0.9rem;
-  border-radius: 18px;
-  background-color: rgba(240, 237, 231, 0.68);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  backdrop-filter: saturate(180%) blur(14px);
-  border: 1px solid rgba(30, 29, 26, 0.08);
-  box-shadow: 0 8px 30px rgba(30, 29, 26, 0.10);
+  top: 0;
+  margin: 0;
+  border-radius: 0;
+  min-height: 3.5rem;
+  background-color: rgba(240, 237, 231, 0.82);
+  -webkit-backdrop-filter: saturate(120%) blur(10px);
+  backdrop-filter: saturate(120%) blur(10px);
+  border-bottom: 1px solid rgba(30, 29, 26, 0.12);
+  box-shadow: none;
 }
 
 [data-theme='dark'] .navbar {
-  background-color: rgba(27, 25, 23, 0.55);
-  border-color: rgba(240, 237, 231, 0.10);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  background-color: rgba(23, 21, 15, 0.82);
+  border-bottom-color: rgba(240, 237, 231, 0.12);
 }
 
-.navbar__inner { border-radius: 18px; }
+.navbar__inner { border-radius: 0; }
 
-/* Centrera innehållet (logo + länkar) i navbaren på desktop */
-@media (min-width: 997px) {
-  .navbar__inner { justify-content: center; }
-  .navbar__items:not(.navbar__items--right) { flex: 0 0 auto; }
-  .navbar__items--right { flex: 0 0 auto; margin-left: 0; }
+.navbar__title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
-@media (max-width: 768px) {
-  .navbar {
-    margin: 0.5rem 0.5rem 0;
-    top: 0.5rem;
-    border-radius: 14px;
-  }
+.navbar__link {
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
 }
 
 /* ═══════════════════════════════════════════════════

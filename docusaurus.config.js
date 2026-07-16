@@ -96,10 +96,6 @@ const config = {
       },
       navbar: {
         title: 'Oscars Stuga',
-        logo: {
-          alt: 'Oscars Stuga Logo',
-          src: 'img/logo.svg',
-        },
         items: [
           {
             type: 'dropdown',
@@ -137,7 +133,7 @@ const config = {
             label: 'Mera',
           },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/oscarthedeveloper/oscarsstuga',
             label: 'GitHub',
             position: 'right',
           },
@@ -147,7 +143,7 @@ const config = {
         style: 'light',
         links: [],
         copyright:
-          '<div class="footerBrand"><span class="footerBrandName">Oscars Stuga</span><img class="footerBrandLogo" src="/img/logo.svg" alt="Oscars Stuga" /></div>',
+          '<div class="footerBrand"><span class="footerBrandName">Oscars Stuga</span></div>',
       },
       prism: {
         theme: prismThemes.github,

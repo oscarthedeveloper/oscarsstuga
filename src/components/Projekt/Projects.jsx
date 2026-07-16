@@ -52,13 +52,14 @@ export default function Projects() {
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
-  const shown = filter === 'Alla' ? projects : projects.filter((p) => p.status === filter);
-  const sorted = [...shown].sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+  const list = (Array.isArray(projects) ? projects : []).filter((p) => p && p.id);
+  const shown = filter === 'Alla' ? list : list.filter((p) => p.status === filter);
+  const sorted = [...shown].sort((a, b) => ((a.createdAt || '') < (b.createdAt || '') ? 1 : -1));
 
   return (
     <div className={styles.wrap}>
       <div className={styles.toolbar}>
-        <span className={styles.count}>{projects.length} projekt</span>
+        <span className={styles.count}>{list.length} projekt</span>
         <button className={styles.btn} onClick={() => setShowForm((s) => !s)}>
           <Plus size={14} /> Nytt projekt
         </button>
@@ -118,7 +119,7 @@ export default function Projects() {
 
       {shown.length === 0 && !showForm && (
         <div className={styles.empty}>
-          {projects.length === 0 ? 'Inga projekt ännu — skapa ditt första med “Nytt projekt”.' : 'Inga projekt med denna status.'}
+          {list.length === 0 ? 'Inga projekt ännu — skapa ditt första med “Nytt projekt”.' : 'Inga projekt med denna status.'}
         </div>
       )}
 
@@ -141,7 +142,7 @@ export default function Projects() {
             </div>
           </Link>
         ))}
-        {projects.length > 0 && (
+        {list.length > 0 && (
           <button className={styles.addTile} onClick={() => setShowForm(true)}>
             <Plus size={16} /> Nytt projekt
           </button>

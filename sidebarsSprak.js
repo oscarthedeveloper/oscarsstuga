@@ -3,6 +3,7 @@
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebarsSprak = {
   sprakSidebar: [
+    'glosor',
     {
       type: 'category',
       label: 'Italienska',

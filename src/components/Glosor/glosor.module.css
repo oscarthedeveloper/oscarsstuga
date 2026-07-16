@@ -1,0 +1,122 @@
+/* Glosträning — kortsamling + kortsida med tvärspråklig övning.
+   IBM Plex Sans, matchar sidans docs. */
+
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.wrap button, .wrap input { font-family: inherit; }
+
+/* Verktygsrad + knappar */
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin: 0.25rem 0 1rem; }
+.count { font-size: 0.85rem; color: var(--ifm-color-emphasis-600); }
+.cloudDot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-left: 0.5rem; vertical-align: middle; }
+.cloudOn { background: var(--ifm-color-success); }
+.cloudOff { background: var(--ifm-color-emphasis-400); }
+.btn {
+  appearance: none; border: none; border-radius: 8px; background: var(--ifm-color-primary); color: #fff;
+  padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;
+}
+.btn:hover { background: var(--ifm-color-primary-dark); }
+.btnGhost {
+  appearance: none; border: 1px solid var(--ifm-color-emphasis-300); border-radius: 8px; background: none;
+  color: var(--ifm-color-emphasis-700); padding: 0.5rem 1rem; font-size: 0.9rem; cursor: pointer;
+}
+.btnGhost:hover { background: var(--ifm-color-emphasis-100); color: var(--ifm-font-color-base); }
+
+.empty { border: 1px dashed var(--ifm-color-emphasis-300); border-radius: 12px; padding: 2.25rem 1rem; text-align: center; color: var(--ifm-color-emphasis-600); font-size: 0.9rem; }
+
+/* Formulär */
+.form { border: 1px solid var(--ifm-color-emphasis-200); border-radius: 12px; padding: 1.1rem 1.2rem; margin-bottom: 1.25rem; background: var(--ifm-card-background-color); }
+.formRow { display: flex; gap: 0.6rem; }
+.control { width: 100%; box-sizing: border-box; border: 1px solid var(--ifm-color-emphasis-300); border-radius: 8px; background: var(--ifm-background-color); color: var(--ifm-font-color-base); padding: 0.5rem 0.7rem; font-size: 0.95rem; }
+.control:focus { outline: none; border-color: var(--ifm-color-primary); }
+.formActions { display: flex; gap: 0.6rem; margin-top: 1rem; }
+.formCols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin-top: 0.8rem; }
+.formCol { display: flex; flex-direction: column; }
+.formColHead { font-size: 0.78rem; font-weight: 600; color: var(--ifm-color-emphasis-700); margin-bottom: 0.35rem; }
+
+/* Kortrutnät */
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { .grid { grid-template-columns: 1fr; } }
+.card {
+  position: relative; display: flex; flex-direction: column; min-height: 116px; padding: 0.9rem 1rem;
+  border-radius: 14px; background: var(--wipCard); border: 1px solid rgba(30, 29, 26, 0.10);
+  text-decoration: none; color: var(--text) !important; overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+[data-theme='dark'] .card { border-color: rgba(240, 237, 231, 0.12); }
+.card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(30, 29, 26, 0.14); text-decoration: none; }
+.cardAccent { position: absolute; left: 0; top: 0; height: 5px; width: 100%; }
+.cardTitle { font-weight: 700; font-size: 1.02rem; line-height: 1.25; margin: 0.35rem 0 0; }
+.cardDate { margin-top: 0.35rem; font-size: 0.72rem; color: var(--ifm-color-emphasis-500); font-variant-numeric: tabular-nums; }
+.cardCount { margin-top: auto; padding-top: 0.6rem; font-size: 0.8rem; color: var(--ifm-color-emphasis-600); }
+.cardDelete { position: absolute; top: 0.5rem; right: 0.5rem; border: none; background: none; color: var(--ifm-color-emphasis-400); cursor: pointer; padding: 0.2rem; border-radius: 6px; line-height: 0; opacity: 0; transition: opacity 0.15s ease; }
+.card:hover .cardDelete { opacity: 1; }
+.cardDelete:hover { color: var(--ifm-color-danger); background: rgba(0,0,0,0.05); }
+.addTile { display: flex; align-items: center; justify-content: center; min-height: 116px; border-radius: 14px; border: 1.5px dashed var(--ifm-color-emphasis-300); background: none; color: var(--ifm-color-emphasis-600); font-weight: 600; cursor: pointer; transition: border-color 0.15s ease, color 0.15s ease; }
+.addTile:hover { border-color: var(--ifm-color-primary); color: var(--ifm-color-primary); }
+
+/* ── Kortsida ── */
+.back { display: inline-block; margin-bottom: 0.75rem; font-size: 0.9rem; }
+.detailDate { color: var(--ifm-color-emphasis-600); font-size: 0.85rem; margin-top: -0.4rem; }
+
+/* Övning */
+.drill { border: 1px solid var(--ifm-color-emphasis-200); border-radius: 14px; padding: 1.25rem 1.35rem 1.4rem; background: var(--ifm-card-background-color); }
+.promptWrap { margin-bottom: 1.4rem; }
+.promptLabel { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ifm-color-emphasis-500); margin-bottom: 0.35rem; }
+.prompt { font-size: clamp(1.9rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; color: var(--ifm-font-color-base); }
+
+.cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+@media (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
+.col { border: 1px solid var(--ifm-color-emphasis-200); border-radius: 10px; padding: 0.75rem 0.8rem; background: var(--ifm-background-color); }
+.colHead { font-size: 0.8rem; font-weight: 600; color: var(--ifm-color-emphasis-700); margin-bottom: 0.5rem; }
+.flag { font-size: 1rem; }
+.input { width: 100%; box-sizing: border-box; border: 1px solid var(--ifm-color-emphasis-300); border-radius: 8px; background: var(--ifm-background-color); color: var(--ifm-font-color-base); padding: 0.5rem 0.65rem; font-size: 1rem; }
+.input:focus { outline: none; border-color: var(--ifm-color-primary); }
+.preview { min-height: 1.9rem; margin-top: 0.4rem; }
+
+.facit { display: flex; align-items: center; gap: 0.45rem; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--ifm-color-emphasis-200); }
+.facitOk { color: var(--ifm-color-success); }
+.facitBad { color: var(--ifm-color-danger); }
+.mark { display: inline-flex; flex: none; }
+
+/* Renderad översättning + artikel-styling */
+.answerText { color: var(--ifm-font-color-base); font-size: 1.05rem; }
+.answerEmpty { color: var(--ifm-color-emphasis-400); }
+.art {
+  display: inline-block; font-size: 1.18em; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.03em; padding: 0 0.28em; border-radius: 5px; line-height: 1.15;
+}
+.genM { background: rgba(59, 90, 122, 0.16); color: #2f4a66; }
+.genF { background: rgba(158, 91, 91, 0.18); color: #7e4444; }
+.genN { background: rgba(95, 107, 76, 0.18); color: #4c552f; }
+.genNone { background: var(--ifm-color-emphasis-200); color: var(--ifm-font-color-base); }
+[data-theme='dark'] .genM { background: rgba(120, 165, 214, 0.22); color: #a9c6e6; }
+[data-theme='dark'] .genF { background: rgba(214, 140, 140, 0.22); color: #e2aeae; }
+[data-theme='dark'] .genN { background: rgba(160, 178, 120, 0.22); color: #c3d19b; }
+[data-theme='dark'] .genNone { background: var(--ifm-color-emphasis-300); }
+
+.controls { display: flex; gap: 0.75rem; margin-top: 1.4rem; }
+
+/* Glos-lista */
+.entryList { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
+.entryRow { display: flex; align-items: center; gap: 0.9rem; border: 1px solid var(--ifm-color-emphasis-200); border-radius: 10px; padding: 0.6rem 0.85rem; background: var(--ifm-card-background-color); }
+.entrySv { font-weight: 700; flex: 0 0 8.5rem; min-width: 0; }
+.entryLangs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; flex: 1; min-width: 0; }
+.entryLang { display: flex; align-items: baseline; gap: 0.35rem; min-width: 0; }
+.entryFlag { flex: none; }
+.entryActions { display: flex; gap: 0.25rem; flex: none; }
+.iconBtn { appearance: none; border: none; background: none; color: var(--ifm-color-emphasis-500); cursor: pointer; padding: 0.3rem; border-radius: 6px; display: inline-flex; line-height: 0; }
+.iconBtn:hover { color: var(--ifm-font-color-base); background: var(--ifm-color-emphasis-100); }
+.iconBtnDanger:hover { color: var(--ifm-color-danger); }
+
+@media (max-width: 640px) {
+  .formCols { grid-template-columns: 1fr; }
+  .entryRow { flex-direction: column; align-items: stretch; }
+  .entrySv { flex: none; }
+  .entryLangs { grid-template-columns: 1fr; }
+}

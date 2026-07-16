@@ -36,7 +36,7 @@ export default function ProjectDetail({ projectId }) {
   const [gh, setGh] = useState(null);
   const [ghErr, setGhErr] = useState(null);
 
-  const project = projects.find((p) => p.id === projectId) || null;
+  const project = (Array.isArray(projects) ? projects : []).find((p) => p && p.id === projectId) || null;
   const repo = parseRepo(project?.repoUrl);
 
   // Synka anteckningsutkast när projektet laddas/ändras

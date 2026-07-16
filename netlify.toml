@@ -1,0 +1,7 @@
+# Netlify-bygginställningar för Oscars Stuga (Docusaurus)
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "20"

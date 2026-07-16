@@ -19,11 +19,11 @@ const config = {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1Z3ViY2p4bW1oZ21penF3bXBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNDUxMDQsImV4cCI6MjA5OTYyMTEwNH0.FrVfNauItKXJqvwg_QSeVWu583adrIfRDfG5JvX0VW4',
   },
 
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://incandescent-youtiao-f3e14a.netlify.app',
   baseUrl: '/',
 
-  organizationName: 'facebook',
-  projectName: 'docusaurus',
+  organizationName: 'oscarthedeveloper',
+  projectName: 'oscarsstuga',
 
   onBrokenLinks: 'throw',
 

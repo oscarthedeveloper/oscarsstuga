@@ -17,12 +17,14 @@ function genId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
 
-function lsGet(collection, fallback) {
+function lsRead(collection, fallback) {
   try {
     const raw = localStorage.getItem(PREFIX + collection);
-    return raw ? JSON.parse(raw) : fallback;
+    return raw == null
+      ? { value: fallback, exists: false }
+      : { value: JSON.parse(raw), exists: true };
   } catch {
-    return fallback;
+    return { value: fallback, exists: false };
   }
 }
 
@@ -45,39 +47,93 @@ export function useHPData() {
   const [cloud, setCloud] = useState(false); // true om Supabase är påkopplat
 
   const supaRef = useRef(null);
+  const userRef = useRef(null);
+  const syncReadyRef = useRef(false);
+  const pendingRef = useRef(new Map());
+  const writeChainsRef = useRef(new Map());
+
+  const enqueueWrite = useCallback((collection, data) => {
+    const supa = supaRef.current;
+    const user = userRef.current;
+    if (!supa || !user) {
+      pendingRef.current.set(collection, data);
+      return;
+    }
+
+    const previous = writeChainsRef.current.get(collection) || Promise.resolve();
+    const next = previous
+      .catch(() => undefined)
+      .then(async () => {
+        const { error } = await supa
+          .from('user_data')
+          .upsert(
+            { user_id: user.id, collection, data },
+            { onConflict: 'user_id,collection' }
+          );
+        if (error) {
+          setCloud(false);
+          // eslint-disable-next-line no-console
+          console.warn(`[hp] Synk misslyckades (${collection}):`, error.message);
+          return;
+        }
+        setCloud(true);
+      });
+    writeChainsRef.current.set(collection, next);
+  }, []);
 
   // ── Ladda: localStorage först, sedan (om möjligt) Supabase ────────────────
   useEffect(() => {
     let cancelled = false;
+    syncReadyRef.current = false;
 
     // 1. localStorage — direkt
-    setSessions(lsGet('sessions', []));
-    setHpExams(lsGet('exams', []));
-    setExamDateState(lsGet('meta', {}).examDate ?? null);
+    const localSessions = lsRead('sessions', []);
+    const localExams = lsRead('exams', []);
+    const localMeta = lsRead('meta', {});
+    setSessions(localSessions.value);
+    setHpExams(localExams.value);
+    setExamDateState(localMeta.value.examDate ?? null);
     setReady(true);
 
     // 2. Supabase — hämta och skriv över om det finns data
     getSupabase(supabaseUrl, supabaseAnonKey).then(async (supa) => {
       if (!supa || cancelled) return;
-      supaRef.current = supa;
-      setCloud(true);
       try {
-        const { data, error } = await supa.from('hp_data').select('collection, data');
-        if (error || !data) return;
+        const { data: authData, error: authError } = await supa.auth.getUser();
+        const user = authData?.user;
+        if (authError || !user) return;
+
+        supaRef.current = supa;
+        userRef.current = user;
+        const { data, error } = await supa
+          .from('user_data')
+          .select('collection, data')
+          .eq('user_id', user.id);
+        if (cancelled || error) return;
         const byCol = Object.fromEntries(data.map((r) => [r.collection, r.data]));
-        if (cancelled) return;
-        if (Array.isArray(byCol.sessions)) {
-          setSessions(byCol.sessions);
-          lsSet('sessions', byCol.sessions);
-        }
-        if (Array.isArray(byCol.exams)) {
-          setHpExams(byCol.exams);
-          lsSet('exams', byCol.exams);
-        }
-        if (byCol.meta && typeof byCol.meta === 'object') {
-          setExamDateState(byCol.meta.examDate ?? null);
-          lsSet('meta', byCol.meta);
-        }
+        syncReadyRef.current = true;
+        setCloud(true);
+
+        const pending = new Map(pendingRef.current);
+        pendingRef.current.clear();
+        const collections = [
+          ['sessions', localSessions, Array.isArray],
+          ['exams', localExams, Array.isArray],
+          ['meta', localMeta, (value) => value && typeof value === 'object' && !Array.isArray(value)],
+        ];
+        collections.forEach(([collection, local, valid]) => {
+          if (pending.has(collection)) {
+            enqueueWrite(collection, pending.get(collection));
+          } else if (valid(byCol[collection])) {
+            const remote = byCol[collection];
+            if (collection === 'sessions') setSessions(remote);
+            if (collection === 'exams') setHpExams(remote);
+            if (collection === 'meta') setExamDateState(remote.examDate ?? null);
+            lsSet(collection, remote);
+          } else if (local.exists) {
+            enqueueWrite(collection, local.value);
+          }
+        });
       } catch (err) {
         // eslint-disable-next-line no-console
         console.warn('[hp] Kunde inte hämta från Supabase:', err?.message);
@@ -87,24 +143,17 @@ export function useHPData() {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [enqueueWrite, supabaseAnonKey, supabaseUrl]);
 
   // ── Persist-hjälp: skriv en collection till localStorage + Supabase ───────
   const persist = useCallback((collection, data) => {
     lsSet(collection, data);
-    const supa = supaRef.current;
-    if (!supa) return;
-    supa
-      .from('hp_data')
-      .upsert({ collection, data }, { onConflict: 'collection' })
-      .then(({ error }) => {
-        if (error) {
-          // eslint-disable-next-line no-console
-          console.warn(`[hp] Synk misslyckades (${collection}):`, error.message);
-        }
-      });
-  }, []);
+    if (syncReadyRef.current) {
+      enqueueWrite(collection, data);
+    } else {
+      pendingRef.current.set(collection, data);
+    }
+  }, [enqueueWrite]);
 
   // ── Sessions ──────────────────────────────────────────────────────────────
   const addSession = useCallback(

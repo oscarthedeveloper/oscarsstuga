@@ -11,6 +11,12 @@
   background: var(--home-paper);
   color: var(--home-ink);
 }
+/* Formkontroller ärver inte typsnitt — tvinga IBM Plex Sans överallt i låset */
+.gate input,
+.gate button,
+.splash * {
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
 [data-theme='dark'] .gate, [data-theme='dark'] .splash {
   --home-paper: #17150f;
   --home-ink: #efece4;

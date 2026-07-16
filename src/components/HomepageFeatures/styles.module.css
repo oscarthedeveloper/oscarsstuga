@@ -1,0 +1,82 @@
+.features {
+  padding: 1rem 1rem 4.5rem;
+  background: var(--vit);
+}
+
+.grid {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: 1.6rem 1.4rem 1.5rem;
+  border-radius: 16px;
+  background: var(--wipCard);
+  border: 1px solid rgba(30, 29, 26, 0.08);
+  text-decoration: none;
+  color: var(--text) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+[data-theme='dark'] .card {
+  border-color: rgba(240, 237, 231, 0.10);
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(30, 29, 26, 0.12);
+  text-decoration: none;
+}
+
+.cardAccent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 4px;
+  width: 100%;
+}
+
+.cardEmoji {
+  display: block;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.cardTitle {
+  margin: 0 0 0.4rem;
+  font-size: 1.25rem;
+}
+
+.cardDesc {
+  margin: 0;
+  color: var(--text);
+  opacity: 0.72;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.cardArrow {
+  position: absolute;
+  right: 1.3rem;
+  top: 1.4rem;
+  font-size: 1.25rem;
+  color: var(--card-accent, var(--blå));
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.card:hover .cardArrow {
+  opacity: 1;
+  transform: translateX(0);
+}

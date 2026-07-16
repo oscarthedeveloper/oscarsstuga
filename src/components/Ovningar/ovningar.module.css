@@ -1,0 +1,202 @@
+/* Övningar — ifyllnadstabeller. Infima-baserat, följer temat.
+   Byggt med CSS-grid (inte <table>) för att undvika globala tabellstilar. */
+
+/* Tvinga IBM Plex Sans på hela komponenten inkl. formkontroller
+   (input/button ärver inte font-family som standard). */
+.drill,
+.drill input,
+.drill button,
+.drill select,
+.drill textarea,
+.drill option {
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.drill {
+  max-width: 680px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-card-background-color);
+  padding: 1.4rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+.score {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  font-variant-numeric: tabular-nums;
+}
+.reset {
+  appearance: none;
+  border: none;
+  background: none;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.reset:hover { color: var(--ifm-font-color-base); }
+
+.head {
+  padding: 0.9rem 1rem;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-emphasis-100);
+  margin-bottom: 1rem;
+}
+.headMain {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  vertical-align: middle;
+}
+.headSub {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+}
+.pill {
+  display: inline-block;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Grid-tabeller */
+.gridWrap { overflow-x: auto; }
+
+.grid2 {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.55rem 0.85rem;
+  align-items: center;
+}
+.grid3 {
+  display: grid;
+  grid-template-columns: max-content 1fr 1fr;
+  gap: 0.55rem 0.85rem;
+  align-items: start;
+  min-width: 460px;
+}
+
+.colHead {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ifm-color-emphasis-600);
+  font-weight: 700;
+  padding-bottom: 0.1rem;
+}
+.rowLabel {
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ifm-font-color-base);
+}
+
+.cell { display: flex; flex-direction: column; }
+.cellInput {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  padding: 0.42rem 0.6rem;
+  font-size: 0.95rem;
+}
+.cellInput:focus { outline: none; border-color: var(--ifm-color-primary); }
+.cellInput::placeholder { color: var(--ifm-color-emphasis-400); }
+
+.inputCorrect { border-color: #2ea043; background: rgba(46, 160, 67, 0.09); }
+.inputWrong { border-color: #e11d48; background: rgba(225, 29, 72, 0.08); }
+
+.reveal {
+  margin-top: 0.22rem;
+  font-size: 0.78rem;
+  color: #b3123c;
+}
+[data-theme='dark'] .reveal { color: #ff6b8a; }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+.btn {
+  appearance: none;
+  border: none;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-primary);
+  color: #fff;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn:hover { background: var(--ifm-color-primary-dark); }
+.summary {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-700);
+}
+
+/* ── Filter / väljare ── */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+.filterLabel {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ifm-color-emphasis-500);
+  margin-right: 0.2rem;
+  min-width: 4.2rem;
+}
+.chip {
+  appearance: none;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: none;
+  border-radius: 999px;
+  padding: 0.2rem 0.62rem;
+  font-size: 0.74rem;
+  color: var(--ifm-color-emphasis-700);
+  cursor: pointer;
+}
+.chip:hover { background: var(--ifm-color-emphasis-100); }
+.chipActive {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #fff;
+}
+.pillAlt {
+  display: inline-block;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--ifm-color-emphasis-700);
+  color: #fff;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}

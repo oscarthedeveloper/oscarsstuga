@@ -1,0 +1,206 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* IBM Plex Sans as the global font */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+.hash-link::before, .hash-link {
+  display: none;
+}
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-font-family-base: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --ifm-heading-font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --ifm-color-primary: #244bc2;
+  --ifm-color-secondary: #db5800;
+  --ifm-color-primary-dark: #2044af;
+  --ifm-color-primary-darker: #1f40a5;
+  --ifm-color-primary-darkest: #193488;
+  --ifm-color-primary-light: #2852d5;
+  --ifm-color-primary-lighter: #305ad9;
+  --ifm-color-primary-lightest: #4d71de;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  --background-color:  #f0ede7;
+
+  /* Site tokens */
+  --orange:            #ff4802;
+  --blå:               #0b00cb;
+  --lila:              #908aff;
+  --svart:             #1e1d1a;
+  --vit:               #f0ede7;
+  --background-color:  #f0ede7;
+  --highlight:         #0b00cb;
+
+  /* Component tokens */
+  --wipSection:        #e8e4de;
+  --wipCard:           #faf8f5;
+  --showcaseSection:   #faf8f5;
+  --text:              #1e1d1a;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary:          #ff4802;
+  --ifm-color-primary-dark:     #e74000;
+  --ifm-color-primary-darker:   #da3c00;
+  --ifm-color-primary-darkest:  #b43200;
+  --ifm-color-primary-light:    #ff5b1c;
+  --ifm-color-primary-lighter:  #ff6429;
+  --ifm-color-primary-lightest: #ff804f;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --orange:           #ff4802;
+  --blå:              #908aff;
+  --lila:             #908aff;
+  --svart:            #e8e4de;
+  --vit:              #1b1917;
+  --background-color: #1b1917;
+  --highlight:        #908aff;
+
+  --wipSection:       #252320;
+  --wipCard:          #302e2b;
+  --showcaseSection:  #141311;
+  --text:             #e8e4de;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  background: var(--blå);
+  color: white;
+  display: block;
+  max-width: fit-content;
+  padding: .4rem .4rem;
+  width: auto;
+  font-size: 3rem;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-right: 0;
+}
+
+h2 {
+  background: var(--orange);
+  color: white;
+  display: block;
+  max-width: fit-content;
+  padding: .4rem .4rem;
+  width: auto;
+  font-size: 2.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-right: 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   TABLES — endast i dokument-/blogginnehåll (.markdown) så att stilarna
+   inte läcker in i app-komponenter som HP-trackern eller övningarna.
+   ═══════════════════════════════════════════════════ */
+
+.markdown table {
+  max-width: fit-content;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  border-color: white;
+}
+
+.markdown table td {
+  padding: 12px;
+  text-align: left;
+  border-color: white;
+}
+
+.markdown table th {
+  padding: 12px;
+  text-align: center;
+  border-color: white;
+  background-color: rgba(0,0,0,0.04);
+}
+
+.markdown table thead tr {
+  border-bottom: 0px;
+}
+
+[data-theme='dark'] .markdown table {
+  background-color: #252320;
+  color: var(--svart);
+}
+
+/* ═══════════════════════════════════════════════════
+   FLYTANDE NAVBAR — rundad, transparent, glasig
+   ═══════════════════════════════════════════════════ */
+
+.navbar {
+  position: sticky;
+  top: 0.7rem;
+  margin: 0.7rem 0.9rem;
+  border-radius: 18px;
+  background-color: rgba(240, 237, 231, 0.68);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
+  border: 1px solid rgba(30, 29, 26, 0.08);
+  box-shadow: 0 8px 30px rgba(30, 29, 26, 0.10);
+}
+
+[data-theme='dark'] .navbar {
+  background-color: rgba(27, 25, 23, 0.55);
+  border-color: rgba(240, 237, 231, 0.10);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.navbar__inner { border-radius: 18px; }
+
+/* Centrera innehållet (logo + länkar) i navbaren på desktop */
+@media (min-width: 997px) {
+  .navbar__inner { justify-content: center; }
+  .navbar__items:not(.navbar__items--right) { flex: 0 0 auto; }
+  .navbar__items--right { flex: 0 0 auto; margin-left: 0; }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    margin: 0.5rem 0.5rem 0;
+    top: 0.5rem;
+    border-radius: 14px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   SMAL FOOTER — endast namn + ikon, centrerat
+   ═══════════════════════════════════════════════════ */
+
+.footer {
+  padding: 1.2rem 0;
+  background: transparent;
+  border-top: 1px solid rgba(30, 29, 26, 0.08);
+}
+[data-theme='dark'] .footer {
+  border-top-color: rgba(240, 237, 231, 0.10);
+}
+.footer .footer__links {
+  display: none;
+}
+.footer .footer__bottom {
+  text-align: center;
+}
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+.footerBrandName {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.footerBrandLogo {
+  width: 34px;
+  height: 34px;
+}

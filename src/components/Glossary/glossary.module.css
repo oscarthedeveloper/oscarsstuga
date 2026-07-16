@@ -1,0 +1,223 @@
+/* Ordabok — kortrutnät + detaljsida + övning. Bygger på sidans varumärkes-tokens. */
+
+.wrap { max-width: 1000px; margin: 0 auto; }
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.5rem 0 1.25rem;
+}
+.count { color: var(--ifm-color-emphasis-600); font-size: 0.85rem; }
+
+/* ── Kortrutnät: fyra i bredd ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 996px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 720px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px)  { .grid { grid-template-columns: 1fr; } }
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 130px;
+  padding: 1rem 1rem 0.9rem;
+  border-radius: 14px;
+  background: var(--wipCard);
+  border: 1px solid rgba(30, 29, 26, 0.10);
+  text-decoration: none;
+  color: var(--text) !important;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+[data-theme='dark'] .card { border-color: rgba(240, 237, 231, 0.12); }
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(30, 29, 26, 0.14);
+  text-decoration: none;
+}
+.cardAccent { position: absolute; left: 0; top: 0; height: 5px; width: 100%; }
+.cardTitle {
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0.35rem 0 0;
+}
+.cardDate {
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+  font-variant-numeric: tabular-nums;
+}
+.cardCount {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-500);
+}
+.cardDelete {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  border: none;
+  background: none;
+  color: var(--ifm-color-emphasis-400);
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 6px;
+  line-height: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.card:hover .cardDelete { opacity: 1; }
+.cardDelete:hover { color: var(--ifm-color-danger); background: rgba(0,0,0,0.05); }
+
+/* Lägg-till-kort-ruta */
+.addTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 130px;
+  border-radius: 14px;
+  border: 1.5px dashed var(--ifm-color-emphasis-300);
+  background: none;
+  color: var(--ifm-color-emphasis-600);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.addTile:hover { border-color: var(--blå); color: var(--blå); }
+
+/* ── Formulär (kort + ord) ── */
+.form {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-card-background-color);
+  padding: 1.1rem;
+  margin-bottom: 1.25rem;
+}
+.formRow { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.control {
+  flex: 1;
+  min-width: 140px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  padding: 0.5rem 0.65rem;
+  font-size: 0.95rem;
+}
+.control:focus { outline: none; border-color: var(--blå); }
+.textarea { width: 100%; min-height: 52px; resize: vertical; }
+.formActions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+
+.btn {
+  appearance: none; border: none; border-radius: 8px;
+  background: var(--blå); color: #fff;
+  padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 0.35rem;
+}
+.btn:hover { opacity: 0.92; }
+.btnGhost {
+  appearance: none; border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px; background: none; color: var(--ifm-color-emphasis-700);
+  padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+}
+.btnGhost:hover { background: var(--ifm-color-emphasis-100); color: var(--ifm-font-color-base); }
+
+.empty {
+  border: 1px dashed var(--ifm-color-emphasis-300);
+  border-radius: 12px; padding: 2.5rem 1rem; text-align: center;
+  color: var(--ifm-color-emphasis-600); font-size: 0.9rem;
+}
+
+/* ── Detaljsida: ordlista ── */
+.back { display: inline-block; margin-bottom: 0.75rem; font-size: 0.9rem; }
+.detailDate { color: var(--ifm-color-emphasis-600); font-size: 0.9rem; margin: 0 0 1.25rem; }
+.wordList { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; }
+.wordRow {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  background: var(--ifm-card-background-color);
+  padding: 0.8rem 1rem;
+}
+.wordTop { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+.wordWord { font-weight: 700; font-size: 1.05rem; }
+.wordDef { margin: 0.3rem 0 0; color: var(--ifm-font-color-base); }
+.wordEx { margin: 0.3rem 0 0; font-style: italic; color: var(--ifm-color-emphasis-600); font-size: 0.9rem; }
+.wordActions { display: flex; gap: 0.15rem; flex-shrink: 0; }
+.iconBtn {
+  border: none; background: none; color: var(--ifm-color-emphasis-500);
+  cursor: pointer; padding: 0.2rem; border-radius: 6px; line-height: 0;
+}
+.iconBtn:hover { color: var(--ifm-font-color-base); background: var(--ifm-color-emphasis-100); }
+.iconBtnDanger:hover { color: var(--ifm-color-danger); }
+
+/* ── Övning ── */
+.practice {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-card-background-color);
+  padding: 1.4rem;
+  margin-top: 1rem;
+}
+.modeRow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin-bottom: 1rem; }
+.modeLabel { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ifm-color-emphasis-500); margin-right: 0.25rem; }
+.chip {
+  appearance: none; border: 1px solid var(--ifm-color-emphasis-300); background: none;
+  border-radius: 999px; padding: 0.2rem 0.7rem; font-size: 0.78rem;
+  color: var(--ifm-color-emphasis-700); cursor: pointer;
+}
+.chip:hover { background: var(--ifm-color-emphasis-100); }
+.chipActive { background: var(--blå); border-color: var(--blå); color: #fff; }
+
+.prompt {
+  text-align: center; padding: 1.2rem 1rem; border-radius: 10px;
+  background: var(--ifm-color-emphasis-100); margin-bottom: 1rem;
+}
+.promptLabel { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ifm-color-emphasis-500); }
+.promptDef { font-size: 1.15rem; font-weight: 600; margin-top: 0.35rem; }
+.promptEx { margin-top: 0.5rem; font-style: italic; color: var(--ifm-color-emphasis-600); font-size: 0.9rem; }
+
+.answerRow { display: flex; gap: 0.5rem; }
+.answerInput {
+  flex: 1; border: 1px solid var(--ifm-color-emphasis-300); border-radius: 8px;
+  background: var(--ifm-background-color); color: var(--ifm-font-color-base);
+  padding: 0.55rem 0.75rem; font-size: 1rem;
+}
+.answerInput:focus { outline: none; border-color: var(--blå); }
+
+.options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+@media (max-width: 520px) { .options { grid-template-columns: 1fr; } }
+.option {
+  appearance: none; border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px; background: var(--ifm-background-color); color: var(--ifm-font-color-base);
+  padding: 0.6rem 0.8rem; font-size: 0.95rem; cursor: pointer; text-align: left;
+}
+.option:hover { border-color: var(--blå); }
+.optionCorrect { border-color: #2ea043; background: rgba(46,160,67,0.10); }
+.optionWrong { border-color: #e11d48; background: rgba(225,29,72,0.09); }
+
+.feedback { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 8px; font-size: 0.95rem; }
+.correct { background: rgba(46,160,67,0.12); color: #1a7f37; border: 1px solid rgba(46,160,67,0.3); }
+.wrong { background: rgba(225,29,72,0.10); color: #b3123c; border: 1px solid rgba(225,29,72,0.28); }
+[data-theme='dark'] .correct { color: #4ac26b; }
+[data-theme='dark'] .wrong { color: #ff6b8a; }
+.answerTxt { font-weight: 700; }
+.practiceActions { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; }
+.score { font-size: 0.85rem; color: var(--ifm-color-emphasis-600); font-variant-numeric: tabular-nums; }
+
+/* Tvinga IBM Plex Sans på alla formkontroller i Ordabok */
+.wrap, .practice, .form,
+.wrap input, .wrap textarea, .wrap button, .wrap select,
+.practice input, .practice button, .form input, .form textarea, .form button {
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

@@ -1,0 +1,431 @@
+/* HP-tracker — stilar byggda på Infima/Docusaurus-variabler så att
+   komponenten följer temat (ljust/mörkt) och resten av sidan. */
+
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem 0 4rem;
+}
+
+.header {
+  margin-bottom: 0.25rem;
+}
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.85rem;
+}
+.cloudDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+.cloudOn { background: var(--ifm-color-success); }
+.cloudOff { background: var(--ifm-color-emphasis-400); }
+
+/* ── Countdown ── */
+.countdown {
+  margin: 1.25rem 0 1.75rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-card-background-color);
+}
+.countRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.countNum {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.countLabel {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+  margin-left: 0.6rem;
+}
+.dateInput {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  padding: 0.4rem 0.7rem;
+  font-size: 0.9rem;
+}
+.progressTrack {
+  height: 4px;
+  width: 100%;
+  background: var(--ifm-color-emphasis-200);
+  border-radius: 4px;
+  margin-top: 0.9rem;
+  overflow: hidden;
+}
+.progressBar {
+  height: 4px;
+  background: var(--ifm-color-primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.progressEnds {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.3rem;
+  font-size: 0.7rem;
+  color: var(--ifm-color-emphasis-500);
+}
+
+/* ── Flikar ── */
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  margin-bottom: 1.5rem;
+}
+.tab {
+  appearance: none;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-600);
+  cursor: pointer;
+}
+.tab:hover { color: var(--ifm-font-color-base); }
+.tabActive {
+  color: var(--ifm-color-primary);
+  border-bottom-color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+/* ── Sektionsöversikt ── */
+.groupLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ifm-color-emphasis-500);
+  margin: 0 0 0.5rem;
+}
+.sectionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+@media (min-width: 768px) {
+  .sectionGrid { grid-template-columns: repeat(4, 1fr); }
+}
+.sectionCard {
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-card-background-color);
+  padding: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.sectionCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+.sectionCardActive {
+  border-color: var(--ifm-color-primary);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+.accentBar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 3px;
+  width: 100%;
+}
+.secTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.secId { font-weight: 700; font-size: 0.95rem; line-height: 1; }
+.secName { font-size: 0.7rem; color: var(--ifm-color-emphasis-600); margin-top: 0.25rem; }
+.secCount { font-size: 0.7rem; color: var(--ifm-color-emphasis-500); }
+.secBig { font-size: 1.6rem; font-weight: 700; }
+.secUnit { font-size: 0.72rem; color: var(--ifm-color-emphasis-600); margin-left: 0.3rem; }
+.secMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0.4rem 0 0.6rem;
+}
+.spark { display: flex; align-items: flex-end; gap: 2px; height: 24px; }
+.sparkBar { flex: 1; border-radius: 2px; min-height: 2px; }
+.secEmpty { font-size: 0.72rem; color: var(--ifm-color-emphasis-500); }
+
+/* ── Logg-verktygsrad ── */
+.logBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.chips { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; }
+.chip {
+  appearance: none;
+  border: 1px solid transparent;
+  background: none;
+  border-radius: var(--ifm-global-radius);
+  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-600);
+  cursor: pointer;
+}
+.chip:hover { color: var(--ifm-font-color-base); }
+.chipActive {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-font-color-base);
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+/* ── Knappar ── */
+.btnPrimary {
+  appearance: none;
+  border: none;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-primary);
+  color: var(--ifm-button-color, #fff);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.btnPrimary:hover { background: var(--ifm-color-primary-dark); }
+.btnGhost {
+  appearance: none;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background: none;
+  color: var(--ifm-color-emphasis-700);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.btnGhost:hover { background: var(--ifm-color-emphasis-100); color: var(--ifm-font-color-base); }
+.iconBtn {
+  appearance: none;
+  border: none;
+  background: none;
+  color: var(--ifm-color-emphasis-500);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--ifm-global-radius);
+  display: inline-flex;
+}
+.iconBtn:hover { color: var(--ifm-font-color-base); background: var(--ifm-color-emphasis-100); }
+.iconBtnDanger:hover { color: var(--ifm-color-danger); }
+
+/* ── Formulär ── */
+.form {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-card-background-color);
+  padding: 1.1rem;
+  margin-bottom: 1.25rem;
+}
+.formHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.formTitle { font-weight: 600; }
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+@media (min-width: 640px) { .formGrid { grid-template-columns: repeat(3, 1fr); } }
+.field label {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.25rem;
+}
+.control {
+  width: 100%;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  padding: 0.45rem 0.6rem;
+  font-size: 0.9rem;
+}
+.control:focus { outline: none; border-color: var(--ifm-color-primary); }
+.fieldWide { grid-column: 1 / -1; }
+.formActions { display: flex; gap: 0.5rem; margin-top: 0.9rem; }
+
+/* ── Sessionsrader ── */
+.list { display: flex; flex-direction: column; gap: 0.5rem; }
+.row {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-card-background-color);
+}
+.rowMain {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+}
+.badge {
+  flex-shrink: 0;
+  border-radius: var(--ifm-global-radius);
+  padding: 0.2rem 0.5rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.score { font-size: 0.9rem; font-weight: 500; white-space: nowrap; }
+.scorePct { font-size: 0.8rem; margin-left: 0.35rem; }
+.rowTrack { flex: 1; height: 3px; background: var(--ifm-color-emphasis-200); border-radius: 3px; overflow: hidden; }
+.rowBar { height: 3px; }
+.rowMeta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-600);
+  white-space: nowrap;
+}
+.rowActions { display: flex; gap: 0.15rem; flex-shrink: 0; }
+.rowNotes {
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--ifm-color-emphasis-600);
+}
+.empty {
+  border: 1px dashed var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.85rem;
+}
+
+/* ── Provöversikt (matris) ── */
+.tableWrap {
+  border-radius: 10px;
+  background: #ffffff;
+  overflow-x: auto;
+}
+[data-theme='dark'] .tableWrap {
+  background: #252320;
+  color: var(--svart);
+}
+.table { display: table; width: 100%; min-width: 640px; max-width: none; border-collapse: collapse; table-layout: fixed; }
+.table th, .table td { padding: 12px 8px; }
+.table th { background-color: rgba(0, 0, 0, 0.04); text-align: center; }
+.table thead tr { border-bottom: 0; }
+.thLabel { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ifm-color-emphasis-500); text-align: left; }
+.thSec { text-align: center; }
+.thSecId { font-weight: 700; font-size: 0.72rem; }
+.thSecName { display: block; font-size: 0.55rem; color: var(--ifm-color-emphasis-500); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; }
+.table th.sep, .table td.sep { padding: 0 !important; background: var(--ifm-color-emphasis-300) !important; }
+.cellBtn {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  border-radius: var(--ifm-global-radius);
+  border: 2px dashed var(--ifm-color-emphasis-300);
+  background: var(--ifm-color-emphasis-100);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.cellDone { border-style: solid; }
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.7rem;
+  color: var(--ifm-color-emphasis-600);
+}
+.legendSwatch { display: inline-flex; align-items: center; gap: 0.35rem; }
+
+/* ── Modal ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+}
+.modal {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-color);
+  padding: 1.5rem;
+  box-shadow: var(--ifm-global-shadow-md);
+  max-width: 90vw;
+}
+.modalText { margin-bottom: 1rem; }
+.dangerBtn {
+  appearance: none;
+  border: 1px solid var(--ifm-color-danger);
+  background: transparent;
+  color: var(--ifm-color-danger);
+  border-radius: var(--ifm-global-radius);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.dangerBtn:hover { background: var(--ifm-color-danger); color: #fff; }
+
+.addExamRow { display: flex; align-items: flex-end; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+
+/* ── Font: tvinga IBM Plex Sans överallt i trackern, inkl. formkontroller ──
+   (input/select/textarea/button ärver inte font-family från sidan som standard) */
+.wrap,
+.wrap input,
+.wrap select,
+.wrap textarea,
+.wrap button,
+.wrap option {
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

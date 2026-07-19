@@ -10,6 +10,7 @@ const sidebarsSprak = {
       collapsed: true,
       items: [
     'italienska/intro',
+    'italienska/ordabok',
     'italienska/anteckningar',
     {
       type: 'category',
@@ -160,6 +161,7 @@ const sidebarsSprak = {
       collapsed: true,
       items: [
     'spanska/intro',
+    'spanska/ordabok',
     'spanska/anteckningar',
     {
       type: 'category',
@@ -175,6 +177,7 @@ const sidebarsSprak = {
       collapsed: true,
       items: [
     'tyska/intro',
+    'tyska/ordabok',
     'tyska/anteckningar',
     {
       type: 'category',

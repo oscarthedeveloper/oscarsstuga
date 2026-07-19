@@ -45,7 +45,7 @@ export default function CardDrill({ cardId }) {
   if (!card) {
     return (
       <div className={styles.wrap}>
-        <Link className={styles.back} to="/sprak/glosor/">← Tillbaka till Glosträning</Link>
+        <Link className={styles.back} to="/sprak/glosor/">← Tillbaka till Gemensam ordabok</Link>
         <div className={styles.empty}>Kortet hittades inte. Det kan ha tagits bort, eller så laddas molndata fortfarande.</div>
       </div>
     );
@@ -93,7 +93,7 @@ export default function CardDrill({ cardId }) {
 
   return (
     <div className={styles.wrap}>
-      <Link className={styles.back} to="/sprak/glosor/">← Tillbaka till Glosträning</Link>
+      <Link className={styles.back} to="/sprak/glosor/">← Tillbaka till Gemensam ordabok</Link>
       <h1>{card.title}</h1>
       <p className={styles.detailDate}>{card.date} · {entries.length} glosor</p>
 

@@ -7,11 +7,16 @@ import styles from './ordabok.module.css';
 
 const BLANK = { word: '', definition: '', example: '' };
 
-export default function CardDetail({ cardId }) {
-  const { value: cards, update, ready } = useSyncedState('ordabok_cards', []);
+export default function CardDetail({
+  cardId,
+  collection = 'ordabok_cards',
+  back = '/forstasprak/svenska/ordabok',
+}) {
+  const { value: cards, update, ready } = useSyncedState(collection, []);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(BLANK);
   const [editId, setEditId] = useState(null);
+  const [view, setView] = useState('add'); // 'add' | 'practice'
 
   if (!ready) return null;
 
@@ -20,7 +25,7 @@ export default function CardDetail({ cardId }) {
   if (!card) {
     return (
       <div className={styles.wrap}>
-        <Link className={styles.back} to="/forstasprak/svenska/ordabok">← Tillbaka till Ordaboken</Link>
+        <Link className={styles.back} to={back}>← Tillbaka till Ordaboken</Link>
         <div className={styles.empty}>Kortet hittades inte. Det kan ha tagits bort, eller så laddas molndata fortfarande.</div>
       </div>
     );
@@ -58,57 +63,75 @@ export default function CardDetail({ cardId }) {
 
   return (
     <div className={styles.wrap}>
-      <Link className={styles.back} to="/forstasprak/svenska/ordabok">← Tillbaka till Ordaboken</Link>
+      <Link className={styles.back} to={back}>← Tillbaka till Ordaboken</Link>
       <h1>{card.title}</h1>
       <p className={styles.detailDate}>{card.date} · {words.length} ord</p>
 
-      <div className={styles.toolbar}>
-        <span className={styles.count}>Ord i kortet</span>
-        <button className={styles.btn} onClick={() => { setEditId(null); setForm(BLANK); setShowForm((s) => !s); }}>
-          <Plus size={14} /> Nytt ord
+      <div className={styles.viewTabs}>
+        <button
+          className={`${styles.viewTab} ${view === 'add' ? styles.viewTabActive : ''}`}
+          onClick={() => setView('add')}
+        >
+          Lägg till glosor
+        </button>
+        <button
+          className={`${styles.viewTab} ${view === 'practice' ? styles.viewTabActive : ''}`}
+          onClick={() => setView('practice')}
+        >
+          Öva glosor
         </button>
       </div>
 
-      {showForm && (
-        <form className={styles.form} onSubmit={submitWord}>
-          <div className={styles.formRow}>
-            <input className={styles.control} placeholder="Ord" value={form.word} onChange={(e) => setForm((f) => ({ ...f, word: e.target.value }))} autoFocus />
+      {view === 'add' ? (
+        <>
+          <div className={styles.toolbar}>
+            <span className={styles.count}>Ord i kortet</span>
+            <button className={styles.btn} onClick={() => { setEditId(null); setForm(BLANK); setShowForm((s) => !s); }}>
+              <Plus size={14} /> Nytt ord
+            </button>
           </div>
-          <div className={styles.formRow} style={{ marginTop: '0.6rem' }}>
-            <input className={styles.control} placeholder="Definition" value={form.definition} onChange={(e) => setForm((f) => ({ ...f, definition: e.target.value }))} />
-          </div>
-          <div className={styles.formRow} style={{ marginTop: '0.6rem' }}>
-            <textarea className={`${styles.control} ${styles.textarea}`} placeholder="Exempelmening" value={form.example} onChange={(e) => setForm((f) => ({ ...f, example: e.target.value }))} />
-          </div>
-          <div className={styles.formActions}>
-            <button type="submit" className={styles.btn}><Check size={14} /> {editId ? 'Spara' : 'Lägg till'}</button>
-            <button type="button" className={styles.btnGhost} onClick={() => { setShowForm(false); setEditId(null); setForm(BLANK); }}>Avbryt</button>
-          </div>
-        </form>
-      )}
 
-      {words.length === 0 ? (
-        <div className={styles.empty}>Inga ord ännu — lägg till ditt första med “Nytt ord”.</div>
-      ) : (
-        <div className={styles.wordList}>
-          {words.map((w) => (
-            <div key={w.id} className={styles.wordRow}>
-              <div className={styles.wordTop}>
-                <span className={styles.wordWord}>{w.word}</span>
-                <span className={styles.wordActions}>
-                  <button className={styles.iconBtn} title="Redigera" onClick={() => startEdit(w)}><Pencil size={14} /></button>
-                  <button className={`${styles.iconBtn} ${styles.iconBtnDanger}`} title="Ta bort" onClick={() => removeWord(w.id)}><Trash2 size={14} /></button>
-                </span>
+          {showForm && (
+            <form className={styles.form} onSubmit={submitWord}>
+              <div className={styles.formRow}>
+                <input className={styles.control} placeholder="Ord" value={form.word} onChange={(e) => setForm((f) => ({ ...f, word: e.target.value }))} autoFocus />
               </div>
-              {w.definition && <p className={styles.wordDef}>{w.definition}</p>}
-              {w.example && <p className={styles.wordEx}>”{w.example}”</p>}
-            </div>
-          ))}
-        </div>
-      )}
+              <div className={styles.formRow} style={{ marginTop: '0.6rem' }}>
+                <input className={styles.control} placeholder="Definition" value={form.definition} onChange={(e) => setForm((f) => ({ ...f, definition: e.target.value }))} />
+              </div>
+              <div className={styles.formRow} style={{ marginTop: '0.6rem' }}>
+                <textarea className={`${styles.control} ${styles.textarea}`} placeholder="Exempelmening" value={form.example} onChange={(e) => setForm((f) => ({ ...f, example: e.target.value }))} />
+              </div>
+              <div className={styles.formActions}>
+                <button type="submit" className={styles.btn}><Check size={14} /> {editId ? 'Spara' : 'Lägg till'}</button>
+                <button type="button" className={styles.btnGhost} onClick={() => { setShowForm(false); setEditId(null); setForm(BLANK); }}>Avbryt</button>
+              </div>
+            </form>
+          )}
 
-      <h2>Öva</h2>
-      <WordPractice words={words} />
+          {words.length === 0 ? (
+            <div className={styles.empty}>Inga ord ännu — lägg till ditt första med “Nytt ord”.</div>
+          ) : (
+            <div className={styles.wordList}>
+              {words.map((w) => (
+                <div key={w.id} className={styles.wordRow}>
+                  <div className={styles.wordTop}>
+                    <span className={styles.wordWord}>{w.word}</span>
+                    <span className={styles.wordActions}>
+                      <button className={styles.iconBtn} title="Redigera" onClick={() => startEdit(w)}><Pencil size={14} /></button>
+                      <button className={`${styles.iconBtn} ${styles.iconBtnDanger}`} title="Ta bort" onClick={() => removeWord(w.id)}><Trash2 size={14} /></button>
+                    </span>
+                  </div>
+                  {w.definition && <p className={styles.wordDef}>{w.definition}</p>}
+                  {w.example && <p className={styles.wordEx}>”{w.example}”</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <WordPractice words={words} />
+      )}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 // Gloskortets övningssida. Läser ?id=<kort-id>. Endast i webbläsaren.
 export default function GlosorKortPage() {
   return (
-    <Layout title="Glosträning — kort" description="Öva ett korts glosor på alla andrahandsspråk">
+    <Layout title="Gemensam ordabok — kort" description="Öva ett korts glosor på alla andrahandsspråk">
       <main className="container margin-vert--lg">
         <BrowserOnly fallback={<div>Laddar…</div>}>
           {() => {

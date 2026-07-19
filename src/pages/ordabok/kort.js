@@ -12,8 +12,11 @@ export default function OrdabokKortPage() {
         <BrowserOnly fallback={<div>Laddar…</div>}>
           {() => {
             const CardDetail = require('@site/src/components/Ordabok/CardDetail').default;
-            const id = new URLSearchParams(window.location.search).get('id');
-            return <CardDetail cardId={id} />;
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const collection = params.get('col') || 'ordabok_cards';
+            const back = params.get('back') || '/forstasprak/svenska/ordabok';
+            return <CardDetail cardId={id} collection={collection} back={back} />;
           }}
         </BrowserOnly>
       </main>

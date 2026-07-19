@@ -10,8 +10,12 @@ function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export default function Ordabok() {
-  const { value: cards, update, ready } = useSyncedState('ordabok_cards', []);
+export default function Ordabok({
+  collection = 'ordabok_cards',
+  cardHref = '/ordabok/kort',
+  back = '/forstasprak/svenska/ordabok',
+}) {
+  const { value: cards, update, ready } = useSyncedState(collection, []);
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(today());
@@ -76,7 +80,7 @@ export default function Ordabok() {
 
       <div className={styles.grid}>
         {sorted.map((c, i) => (
-          <Link key={c.id} to={`/ordabok/kort?id=${c.id}`} className={styles.card}>
+          <Link key={c.id} to={`${cardHref}?id=${c.id}&col=${collection}&back=${encodeURIComponent(back)}`} className={styles.card}>
             <span className={styles.cardAccent} style={{ background: ACCENTS[i % ACCENTS.length] }} />
             <button
               className={styles.cardDelete}

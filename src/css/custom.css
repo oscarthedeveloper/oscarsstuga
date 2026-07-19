@@ -141,16 +141,29 @@ h2 {
   margin: 0;
   border-radius: 0;
   min-height: 3.5rem;
-  background-color: rgba(240, 237, 231, 0.82);
-  -webkit-backdrop-filter: saturate(120%) blur(10px);
-  backdrop-filter: saturate(120%) blur(10px);
+  background-color: rgba(240, 237, 231, 0.94);
   border-bottom: 1px solid rgba(30, 29, 26, 0.12);
   box-shadow: none;
 }
 
 [data-theme='dark'] .navbar {
-  background-color: rgba(23, 21, 15, 0.82);
+  background-color: rgba(23, 21, 15, 0.94);
   border-bottom-color: rgba(240, 237, 231, 0.12);
+}
+
+/* Glas-blur ENDAST på desktop. På mobil finns den fixed-positionerade
+   menylådan inuti .navbar — och en förälder med backdrop-filter blir
+   "containing block" för fixed-barn, vilket bryter lådans placering så att
+   bara .navbar-sidebar__brand syns. Därför ingen backdrop-filter på mobil. */
+@media (min-width: 997px) {
+  .navbar {
+    background-color: rgba(240, 237, 231, 0.82);
+    -webkit-backdrop-filter: saturate(120%) blur(10px);
+    backdrop-filter: saturate(120%) blur(10px);
+  }
+  [data-theme='dark'] .navbar {
+    background-color: rgba(23, 21, 15, 0.82);
+  }
 }
 
 .navbar__inner { border-radius: 0; }

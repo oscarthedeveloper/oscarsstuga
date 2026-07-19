@@ -1,0 +1,118 @@
+/* Böcker — kort per bok i tre sektioner (Läser / Skall läsa / Läst). */
+
+.wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.wrap button, .wrap input, .wrap select { font-family: inherit; }
+
+.toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.75rem; margin: 0.25rem 0 1.25rem;
+}
+.count { font-size: 0.85rem; color: var(--ifm-color-emphasis-600); }
+.cloudDot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-left: 0.5rem; vertical-align: middle; }
+.cloudOn { background: var(--ifm-color-success); }
+.cloudOff { background: var(--ifm-color-emphasis-400); }
+
+.btn {
+  appearance: none; border: none; border-radius: 8px; background: var(--blå); color: #fff;
+  padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 0.35rem;
+}
+.btn:hover { opacity: 0.92; }
+.btnGhost {
+  appearance: none; border: 1px solid var(--ifm-color-emphasis-300); border-radius: 8px; background: none;
+  color: var(--ifm-color-emphasis-700); padding: 0.5rem 1rem; font-size: 0.9rem; cursor: pointer;
+}
+.btnGhost:hover { background: var(--ifm-color-emphasis-100); color: var(--ifm-font-color-base); }
+
+.form {
+  border: 1px solid var(--ifm-color-emphasis-200); border-radius: 12px; padding: 1.1rem 1.2rem;
+  margin-bottom: 1.5rem; background: var(--ifm-card-background-color);
+}
+.formGrid { display: grid; grid-template-columns: 2fr 1.5fr 1fr; gap: 0.6rem; }
+@media (max-width: 640px) { .formGrid { grid-template-columns: 1fr; } }
+.control {
+  width: 100%; box-sizing: border-box; border: 1px solid var(--ifm-color-emphasis-300); border-radius: 8px;
+  background: var(--ifm-background-color); color: var(--ifm-font-color-base); padding: 0.5rem 0.7rem; font-size: 0.95rem;
+}
+.control:focus { outline: none; border-color: var(--blå); }
+.formActions { display: flex; gap: 0.6rem; margin-top: 0.9rem; }
+
+/* Sektion */
+.section { margin-bottom: 1.75rem; }
+.sectionHead { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+.sectionDot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.sectionTitle { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+.sectionCount {
+  font-size: 0.72rem; font-weight: 600; color: var(--ifm-color-emphasis-600);
+  background: var(--ifm-color-emphasis-200); border-radius: 999px; padding: 0.05rem 0.5rem;
+}
+.emptyRow {
+  border: 1px dashed var(--ifm-color-emphasis-300); border-radius: 10px; padding: 1rem;
+  color: var(--ifm-color-emphasis-500); font-size: 0.85rem;
+}
+
+/* Kortrutnät */
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+@media (max-width: 996px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 720px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px)  { .grid { grid-template-columns: 1fr; } }
+
+.card {
+  position: relative; display: flex; flex-direction: column; min-height: 120px;
+  padding: 0.95rem 1rem 0.8rem; border-radius: 14px; background: var(--wipCard);
+  border: 1px solid rgba(30, 29, 26, 0.10); overflow: hidden;
+}
+[data-theme='dark'] .card { border-color: rgba(240, 237, 231, 0.12); }
+.cardAccent { position: absolute; left: 0; top: 0; height: 5px; width: 100%; }
+.cardTitle {
+  font-weight: 700; font-size: 1rem; line-height: 1.25; margin-top: 0.35rem;
+  color: var(--text) !important; text-decoration: none; display: inline-block;
+}
+.cardTitle:hover { color: var(--blå) !important; text-decoration: underline; }
+.cardAuthor { font-size: 0.82rem; color: var(--ifm-color-emphasis-600); margin-top: 0.2rem; }
+.cardFooter {
+  margin-top: auto; padding-top: 0.75rem; display: flex; align-items: center;
+  justify-content: space-between; gap: 0.5rem;
+}
+.moveSelect {
+  flex: 1; min-width: 0; border: 1px solid var(--ifm-color-emphasis-300); border-radius: 7px;
+  background: var(--ifm-background-color); color: var(--ifm-font-color-base);
+  padding: 0.25rem 0.4rem; font-size: 0.78rem; cursor: pointer;
+}
+.cardActions { display: flex; gap: 0.15rem; flex: none; }
+.iconBtn {
+  appearance: none; border: none; background: none; color: var(--ifm-color-emphasis-500);
+  cursor: pointer; padding: 0.25rem; border-radius: 6px; display: inline-flex; line-height: 0;
+}
+.iconBtn:hover { color: var(--ifm-font-color-base); background: var(--ifm-color-emphasis-100); }
+.iconBtnDanger:hover { color: var(--ifm-color-danger); }
+
+/* ── Bokens detaljsida ── */
+.back { display: inline-block; margin-bottom: 0.75rem; font-size: 0.9rem; }
+.detailAuthor { color: var(--ifm-color-emphasis-600); font-size: 0.95rem; margin: -0.4rem 0 1.5rem; }
+.textarea { min-height: 4.5rem; resize: vertical; line-height: 1.5; }
+.detailSection { margin-bottom: 2rem; }
+.detailSectionHead {
+  display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem; border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+.detailSectionTitle { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+.detailSectionCount {
+  font-size: 0.7rem; font-weight: 600; color: var(--ifm-color-emphasis-600);
+  background: var(--ifm-color-emphasis-200); border-radius: 999px; padding: 0.05rem 0.5rem;
+}
+.detailSectionHead .btnGhost { margin-left: auto; padding: 0.35rem 0.7rem; font-size: 0.82rem; }
+.entryList { display: flex; flex-direction: column; }
+.entryRow {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem;
+  padding: 0.75rem 0.25rem; border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+.entryRow:last-child { border-bottom: none; }
+.entryMain { min-width: 0; display: flex; flex-direction: column; gap: 0.2rem; }
+.entryPrimary { font-weight: 600; font-size: 1rem; color: var(--ifm-font-color-base); white-space: pre-wrap; }
+.entrySecondary { font-size: 0.9rem; color: var(--ifm-color-emphasis-700); line-height: 1.5; white-space: pre-wrap; }
+.entryActions { display: flex; gap: 0.15rem; flex: none; }

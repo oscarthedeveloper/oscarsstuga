@@ -10,18 +10,12 @@ const sidebarsMera = {
       collapsed: true,
       items: ['projekt/intro'],
     },
+    'bocker',
     {
       type: 'category',
-      label: 'Teoretiska intressen',
+      label: 'Fornsvenska',
       collapsed: true,
-      items: [
-        'teori/intro',
-        'teori/scrimba',
-        'teori/substack',
-        'teori/bocker',
-        'teori/fornsvensk-grammatik',
-        'teori/svensk-sprakvard',
-      ],
+      items: ['fornsvenska/referenser', 'fornsvenska/anteckningar'],
     },
   ],
 };

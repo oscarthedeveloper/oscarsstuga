@@ -16,7 +16,8 @@ export default function OrdabokKortPage() {
             const id = params.get('id');
             const collection = params.get('col') || 'ordabok_cards';
             const back = params.get('back') || '/forstasprak/svenska/ordabok';
-            return <CardDetail cardId={id} collection={collection} back={back} />;
+            const chars = collection === 'ordabok_de' ? ['ß'] : [];
+            return <CardDetail cardId={id} collection={collection} back={back} chars={chars} />;
           }}
         </BrowserOnly>
       </main>

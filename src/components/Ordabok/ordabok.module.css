@@ -144,7 +144,17 @@
 }
 .control:focus { outline: none; border-color: var(--blå); }
 .textarea { width: 100%; min-height: 52px; resize: vertical; }
-.formActions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+.formActions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: 0.75rem; }
+
+/* Infoga-tecken-knapp (t.ex. tyskt ß) — placeras till höger om Avbryt */
+.charBtn {
+  appearance: none; border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px; background: none; color: var(--ifm-font-color-base);
+  min-width: 2.4rem; padding: 0.5rem 0.7rem; font-size: 1.05rem; font-weight: 700;
+  line-height: 1; cursor: pointer;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.charBtn:hover { background: var(--ifm-color-emphasis-100); border-color: var(--blå); color: var(--blå); }
 
 .btn {
   appearance: none; border: none; border-radius: 8px;

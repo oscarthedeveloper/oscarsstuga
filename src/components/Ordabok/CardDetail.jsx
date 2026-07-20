@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from '@docusaurus/Link';
 import { Plus, Trash2, Pencil, Check } from '@site/src/components/HP/icons';
 import { useSyncedState, genId } from '@site/src/lib/useSyncedState';
@@ -11,12 +11,14 @@ export default function CardDetail({
   cardId,
   collection = 'ordabok_cards',
   back = '/forstasprak/svenska/ordabok',
+  chars = [],
 }) {
   const { value: cards, update, ready } = useSyncedState(collection, []);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(BLANK);
   const [editId, setEditId] = useState(null);
   const [view, setView] = useState('add'); // 'add' | 'practice'
+  const lastFieldRef = useRef(null);
 
   if (!ready) return null;
 
@@ -61,6 +63,27 @@ export default function CardDetail({
     patchCard({ words: words.filter((w) => w.id !== id) });
   }
 
+  // Infoga ett specialtecken (t.ex. ß) i det senast fokuserade fältet vid markören
+  function insertChar(ch) {
+    const el = lastFieldRef.current;
+    const key = el && el.dataset ? el.dataset.field : 'word';
+    const cur = form[key] || '';
+    let start = cur.length;
+    let end = cur.length;
+    if (el && typeof el.selectionStart === 'number') {
+      start = el.selectionStart;
+      end = el.selectionEnd;
+    }
+    const next = cur.slice(0, start) + ch + cur.slice(end);
+    setForm((f) => ({ ...f, [key]: next }));
+    if (el) {
+      requestAnimationFrame(() => {
+        try { el.focus(); const pos = start + ch.length; el.setSelectionRange(pos, pos); } catch { /* noop */ }
+      });
+    }
+  }
+  const trackFocus = (e) => { lastFieldRef.current = e.target; };
+
   return (
     <div className={styles.wrap}>
       <Link className={styles.back} to={back}>← Tillbaka till Ordaboken</Link>
@@ -94,17 +117,29 @@ export default function CardDetail({
           {showForm && (
             <form className={styles.form} onSubmit={submitWord}>
               <div className={styles.formRow}>
-                <input className={styles.control} placeholder="Ord" value={form.word} onChange={(e) => setForm((f) => ({ ...f, word: e.target.value }))} autoFocus />
+                <input className={styles.control} data-field="word" onFocus={trackFocus} placeholder="Ord" value={form.word} onChange={(e) => setForm((f) => ({ ...f, word: e.target.value }))} autoFocus />
               </div>
               <div className={styles.formRow} style={{ marginTop: '0.6rem' }}>
-                <input className={styles.control} placeholder="Definition" value={form.definition} onChange={(e) => setForm((f) => ({ ...f, definition: e.target.value }))} />
+                <input className={styles.control} data-field="definition" onFocus={trackFocus} placeholder="Definition" value={form.definition} onChange={(e) => setForm((f) => ({ ...f, definition: e.target.value }))} />
               </div>
               <div className={styles.formRow} style={{ marginTop: '0.6rem' }}>
-                <textarea className={`${styles.control} ${styles.textarea}`} placeholder="Exempelmening" value={form.example} onChange={(e) => setForm((f) => ({ ...f, example: e.target.value }))} />
+                <textarea className={`${styles.control} ${styles.textarea}`} data-field="example" onFocus={trackFocus} placeholder="Exempelmening" value={form.example} onChange={(e) => setForm((f) => ({ ...f, example: e.target.value }))} />
               </div>
               <div className={styles.formActions}>
                 <button type="submit" className={styles.btn}><Check size={14} /> {editId ? 'Spara' : 'Lägg till'}</button>
                 <button type="button" className={styles.btnGhost} onClick={() => { setShowForm(false); setEditId(null); setForm(BLANK); }}>Avbryt</button>
+                {chars.map((ch) => (
+                  <button
+                    key={ch}
+                    type="button"
+                    className={styles.charBtn}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => insertChar(ch)}
+                    title={`Infoga ${ch}`}
+                  >
+                    {ch}
+                  </button>
+                ))}
               </div>
             </form>
           )}

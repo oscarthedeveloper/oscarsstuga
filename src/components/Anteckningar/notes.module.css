@@ -96,7 +96,7 @@
   gap: 3rem;
   align-items: start;
 }
-.main { min-width: 0; }
+.main { min-width: 0; position: relative; }
 
 .toc {
   position: sticky;
@@ -136,6 +136,88 @@
 .editor :global(h2),
 .editor :global(h3),
 .editor :global(h4) { scroll-margin-top: 6rem; }
+
+/* ── Infoga-panel (under innehållsförteckningen) ── */
+.insertPanel { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--ifm-color-emphasis-200); }
+.insertPanelTitle {
+  text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.08em;
+  font-weight: 700; color: var(--ifm-color-emphasis-600); margin-bottom: 0.6rem;
+}
+.insertLabel {
+  text-transform: uppercase; font-size: 0.62rem; letter-spacing: 0.08em;
+  font-weight: 700; color: var(--ifm-color-emphasis-500); margin: 0.7rem 0 0.4rem;
+}
+.insertGrid { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.insertBtn {
+  appearance: none; border: 1px solid var(--ifm-color-emphasis-300); background: none;
+  color: var(--ifm-color-emphasis-800); border-radius: 7px; padding: 0.3rem 0.55rem;
+  font-size: 0.8rem; font-weight: 600; cursor: pointer; line-height: 1.2;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.insertBtn:hover { background: var(--ifm-color-emphasis-100); color: var(--ifm-font-color-base); }
+.adm_note { border-left: 3px solid #6a737d; }
+.adm_tip { border-left: 3px solid #00a400; }
+.adm_info { border-left: 3px solid #4cb3d4; }
+.adm_warning { border-left: 3px solid #e6a700; }
+.adm_danger { border-left: 3px solid #e13238; }
+
+/* ── Flytande tabell-verktygsrad ── */
+.tableToolbar {
+  position: absolute; z-index: 6; display: flex; flex-wrap: wrap; gap: 0.25rem;
+  padding: 0.25rem; border-radius: 9px;
+  background: var(--ifm-background-color); border: 1px solid var(--ifm-color-emphasis-200);
+  box-shadow: 0 3px 12px rgba(30, 29, 26, 0.16);
+}
+.tableBtn {
+  appearance: none; border: 1px solid var(--ifm-color-emphasis-300);
+  background: none; color: var(--ifm-color-emphasis-700);
+  border-radius: 6px; padding: 0.15rem 0.5rem; font-size: 0.72rem; font-weight: 600;
+  cursor: pointer; line-height: 1.3; white-space: nowrap;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.tableBtn:hover { background: var(--blå); color: #fff; border-color: var(--blå); }
+.tableBtnDanger { color: var(--ifm-color-danger); border-color: var(--ifm-color-emphasis-300); }
+.tableBtnDanger:hover { background: var(--ifm-color-danger); color: #fff; border-color: var(--ifm-color-danger); }
+
+/* ── Admonitions (samma utseende som docs) ── */
+.editor :global(.admonition) {
+  margin: 1rem 0; padding: 0.9rem 1rem; border-radius: 8px;
+  border-left: 6px solid var(--ifm-color-emphasis-400); background: var(--ifm-color-emphasis-100);
+}
+.editor :global(.admonitionHeading) {
+  text-transform: uppercase; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.05em; margin-bottom: 0.4rem;
+}
+.editor :global(.admonitionContent) > :global(p) { margin: 0.4rem 0; }
+.editor :global(.admonitionContent) > :global(p):last-child { margin-bottom: 0; }
+.editor :global(.admonition-note) { border-left-color: #6a737d; background: rgba(106, 115, 125, 0.12); }
+.editor :global(.admonition-note) :global(.admonitionHeading) { color: #6a737d; }
+.editor :global(.admonition-tip) { border-left-color: #00a400; background: rgba(0, 164, 0, 0.10); }
+.editor :global(.admonition-tip) :global(.admonitionHeading) { color: #009400; }
+.editor :global(.admonition-info) { border-left-color: #4cb3d4; background: rgba(76, 179, 212, 0.12); }
+.editor :global(.admonition-info) :global(.admonitionHeading) { color: #2e8bb0; }
+.editor :global(.admonition-warning) { border-left-color: #e6a700; background: rgba(230, 167, 0, 0.12); }
+.editor :global(.admonition-warning) :global(.admonitionHeading) { color: #b98900; }
+.editor :global(.admonition-danger) { border-left-color: #e13238; background: rgba(225, 50, 56, 0.10); }
+.editor :global(.admonition-danger) :global(.admonitionHeading) { color: #c72c31; }
+
+/* ── Flikar (docs-liknande) ── */
+.editor :global(.notesTabs) { margin: 1rem 0; }
+.editor :global(.notesTabList) {
+  display: flex; flex-wrap: wrap; gap: 0.2rem; align-items: center;
+  border-bottom: 2px solid var(--ifm-color-emphasis-300); margin-bottom: 0.85rem;
+}
+.editor :global(.notesTab) {
+  padding: 0.4rem 0.9rem; cursor: pointer; font-weight: 600; font-size: 0.92rem;
+  border-bottom: 2px solid transparent; margin-bottom: -2px; border-radius: 6px 6px 0 0;
+  color: var(--ifm-color-emphasis-700);
+}
+.editor :global(.notesTab):hover { background: var(--ifm-color-emphasis-100); }
+.editor :global(.notesTabActive) { color: var(--ifm-color-primary); border-bottom-color: var(--ifm-color-primary); }
+.editor :global(.notesTabAdd) {
+  padding: 0.35rem 0.6rem; cursor: pointer; color: var(--ifm-color-emphasis-500); font-weight: 700; user-select: none;
+}
+.editor :global(.notesTabAdd):hover { color: var(--ifm-color-primary); }
+.editor :global(.notesTabHidden) { display: none; }
 
 @media (max-width: 996px) {
   .pageLayout { grid-template-columns: 1fr; gap: 0; }

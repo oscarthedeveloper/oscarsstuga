@@ -168,6 +168,11 @@ const config = {
             label: 'Mera',
           },
           {
+            to: '/mindmap',
+            label: 'Mindmap',
+            position: 'left',
+          },
+          {
             href: 'https://github.com/oscarthedeveloper/oscarsstuga',
             label: 'GitHub',
             position: 'right',

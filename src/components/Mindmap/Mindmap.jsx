@@ -155,6 +155,7 @@ export default function Mindmap({ fullscreen = false }) {
   const [draft, setDraft] = useState('');
   const [past, setPast] = useState([]);
   const [future, setFuture] = useState([]);
+  const [linkingFrom, setLinkingFrom] = useState(null);
 
   const viewportRef = useRef(null);
   const pointers = useRef(new Map());
@@ -258,7 +259,7 @@ export default function Mindmap({ fullscreen = false }) {
     viewportRef.current.setPointerCapture(e.pointerId);
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     baseline();
-    if (pointers.current.size === 1) setSelectedId(null);
+    if (pointers.current.size === 1) { setSelectedId(null); setLinkingFrom(null); }
   }
   function onPointerMove(e) {
     if (!pointers.current.has(e.pointerId)) return;
@@ -332,12 +333,36 @@ export default function Mindmap({ fullscreen = false }) {
     if (id === root.id) return;
     pushHistory();
     const pid = parentMap[id];
-    commit(removeNode(root, id));
+    const gone = new Set();
+    const collect = (n) => { gone.add(n.id); (n.children || []).forEach(collect); };
+    const target = findNode(root, id);
+    if (target) collect(target);
+    let next = removeNode(root, id);
+    if (next.links) next = { ...next, links: next.links.filter((l) => !gone.has(l.a) && !gone.has(l.b)) };
+    commit(next);
     setSelectedId(pid || null);
   };
   const setDescription = (id, description) => commit(patchNode(root, id, { description }));
   const collapseAll = () => { pushHistory(); commit(setAllCollapsed(root, true)); };
   const expandAll = () => { pushHistory(); commit(setAllCollapsed(root, false)); };
+
+  // ── Röda tvärkopplingar mellan orelaterade noder ──
+  const links = root.links || [];
+  const startLinking = (id) => { setSelectedId(id); setLinkingFrom(id); };
+  const cancelLinking = () => setLinkingFrom(null);
+  const handleLinkTarget = (bId) => {
+    const a = linkingFrom;
+    if (!a) return;
+    if (bId === a) { setLinkingFrom(null); return; } // klick på källan avbryter
+    if (bId === root.id) return; // roten (TANKEKARTA) kan inte kopplas
+    if (!links.some((l) => (l.a === a && l.b === bId) || (l.a === bId && l.b === a))) {
+      pushHistory();
+      commit({ ...root, links: [...links, { id: genId(), a, b: bId }] });
+    }
+    setLinkingFrom(null);
+    setSelectedId(bId);
+  };
+  const removeLink = (id) => { if (!window.confirm('Ta bort kopplingen?')) return; pushHistory(); commit({ ...root, links: links.filter((l) => l.id !== id) }); };
 
   // ── Navigering & omordning ──
   const goParent = () => { const pid = parentMap[selectedId]; if (pid) { centerNext.current = true; setSelectedId(pid); } };
@@ -376,7 +401,7 @@ export default function Mindmap({ fullscreen = false }) {
         case 'Delete': case 'Backspace': e.preventDefault(); deleteNode(selectedId); break;
         case 'F2': e.preventDefault(); startEdit(selectedId); break;
         case 'f': case 'F': e.preventDefault(); centerOn(selectedId); break;
-        case 'Escape': setSelectedId(null); break;
+        case 'Escape': if (linkingFrom) setLinkingFrom(null); else setSelectedId(null); break;
         case 'ArrowLeft': e.preventDefault(); goParent(); break;
         case 'ArrowRight': e.preventDefault(); goChild(); break;
         case 'ArrowUp': e.preventDefault(); if (e.altKey) moveSibling(-1); else goSibling(-1); break;
@@ -387,18 +412,19 @@ export default function Mindmap({ fullscreen = false }) {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedId, editingId, draft, root, parentMap, centerOn]);
+  }, [selectedId, editingId, draft, root, parentMap, centerOn, linkingFrom]);
 
   if (!ready) return null;
 
   const showDetail = (n) => n.id === selectedId || view.k >= 1.05;
   const pct = Math.round(view.k * 100);
+  const posById = new Map(nodes.map((n) => [n.id, n]));
 
   return (
     <div className={`${styles.wrap} ${fullscreen ? styles.wrapFull : ''}`}>
       <div
         ref={viewportRef}
-        className={`${styles.viewport} ${fullscreen ? styles.viewportFull : ''}`}
+        className={`${styles.viewport} ${fullscreen ? styles.viewportFull : ''} ${linkingFrom ? styles.linking : ''}`}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -425,6 +451,7 @@ export default function Mindmap({ fullscreen = false }) {
               isRoot ? styles.nodeRoot : isHub ? styles.nodeHub : styles.nodeLeaf,
               isSel ? styles.nodeSelected : '',
               isHub ? styles.hub : '',
+              n.id === linkingFrom ? styles.nodeLinkSource : '',
             ].join(' ');
             const fontSize = isRoot ? undefined : n.title && n.title.length > 24 ? '0.62rem' : n.title && n.title.length > 14 ? '0.68rem' : '0.74rem';
             return (
@@ -434,8 +461,8 @@ export default function Mindmap({ fullscreen = false }) {
                 data-side={n.x < -1 ? 'left' : 'right'}
                 style={{ left: n.x, top: n.y, width: n.size, height: n.size, '--branch': n.color }}
                 onPointerDown={(ev) => ev.stopPropagation()}
-                onClick={(ev) => { ev.stopPropagation(); if (!isEditing) setSelectedId(n.id); }}
-                onDoubleClick={(ev) => { ev.stopPropagation(); startEdit(n.id); }}
+                onClick={(ev) => { ev.stopPropagation(); if (isEditing) return; if (linkingFrom) handleLinkTarget(n.id); else setSelectedId(n.id); }}
+                onDoubleClick={(ev) => { ev.stopPropagation(); if (!linkingFrom) startEdit(n.id); }}
               >
                 {isEditing ? (
                   <input
@@ -479,6 +506,28 @@ export default function Mindmap({ fullscreen = false }) {
               </div>
             );
           })}
+
+          {/* Röda tvärkopplingar — översta lagret, raka linjer */}
+          <svg className={styles.linkLayer} width="1" height="1">
+            {links.map((l) => {
+              const A = posById.get(l.a);
+              const B = posById.get(l.b);
+              if (!A || !B) return null;
+              const dx = B.x - A.x, dy = B.y - A.y;
+              const len = Math.hypot(dx, dy) || 1;
+              const ux = dx / len, uy = dy / len;
+              const x1 = A.x + ux * (A.size / 2), y1 = A.y + uy * (A.size / 2);
+              const x2 = B.x - ux * (B.size / 2), y2 = B.y - uy * (B.size / 2);
+              return (
+                <g key={l.id}>
+                  <line className={styles.linkHit} x1={x1} y1={y1} x2={x2} y2={y2} onClick={() => removeLink(l.id)}>
+                    <title>Klicka för att ta bort kopplingen</title>
+                  </line>
+                  <line className={styles.linkLine} x1={x1} y1={y1} x2={x2} y2={y2} />
+                </g>
+              );
+            })}
+          </svg>
         </div>
 
         {/* Verktygsrad */}
@@ -502,7 +551,7 @@ export default function Mindmap({ fullscreen = false }) {
         </div>
 
         {/* Inspektörspanel */}
-        {selected && (
+        {selected && !linkingFrom && (
           <div className={styles.panel}>
             <div className={styles.panelHead}>
               <span className={styles.panelTitle}>{selected.title || 'Utan titel'}</span>
@@ -520,12 +569,21 @@ export default function Mindmap({ fullscreen = false }) {
               <button className={styles.btnGhost} onClick={() => startEdit(selected.id)}>Byt namn</button>
               {selected.id !== root.id && (
                 <>
+                  <button className={styles.btnLink} title="Koppla till en annan nod med en röd tråd" onClick={() => startLinking(selected.id)}>Koppla</button>
                   <button className={styles.iconBtnSm} title="Flytta upp (Alt+↑)" onClick={() => moveSibling(-1)}>↑</button>
                   <button className={styles.iconBtnSm} title="Flytta ned (Alt+↓)" onClick={() => moveSibling(1)}>↓</button>
                   <button className={styles.btnDanger} title="Ta bort (Del)" onClick={() => deleteNode(selected.id)}><Trash2 size={14} /></button>
                 </>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Länkläge-banner */}
+        {linkingFrom && (
+          <div className={styles.linkBanner}>
+            <span>Välj en nod att koppla till <b>{findNode(root, linkingFrom)?.title || ''}</b></span>
+            <button className={styles.linkCancel} onClick={cancelLinking}>Avbryt</button>
           </div>
         )}
 
